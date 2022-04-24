@@ -27,7 +27,7 @@ jobs:
         python3 -m pip install --upgrade pip
         python3 -m pip install pipenv
     - name: main lock package create from Pipfile
-        run: pipenv lock
+      run: pipenv lock
     - name: install packages from lock file
       run: pipenv sync
     
