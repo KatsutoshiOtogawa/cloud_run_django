@@ -1,0 +1,10 @@
+.devcontainer
+.editorconfig
+.gitignore
+.keys
+Pipfile
+Pipfile.lock
+app.dev.yml
+app.production.yml
+app.test.yml
+README.md

@@ -1,0 +1,55 @@
+name: Build and Deploy to gae
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.9]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Dependencies
+      run: |
+        python3 -m pip install --upgrade pip
+        python3 -m pip install pipenv
+    - name: main lock package create from Pipfile
+        run: pipenv lock
+    - name: install packages from lock file
+      run: pipenv sync
+    
+    # pipenv sync --dev
+    - name: Run Tests
+      run:  run test
+    - name: create requirements.txt
+    # python -m pip install pipenv
+      run: pip lock -r > requirements.txt
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v0'
+      with:
+        workload_identity_provider: 'projects/93898855020/locations/global/workloadIdentityPools/forgithubactionid/providers/githubid'
+        service_account: 'compute-engine-for-github@github-for-personal-build.iam.gserviceaccount.com'
+
+    # - id: 'production_deploy'
+    # name: 'production_deploy'
+    #   if: ${{ github.ref == 'refs/heads/main' }}
+    #   uses: 'google-github-actions/deploy-appengine@v0'
+    #   with:
+    #     deliverables: app.production.yml
+
+    # Example of using the output
+    # - id: 'test'
+    #  run: 'curl "${{ steps.deploy.outputs.url }}"'

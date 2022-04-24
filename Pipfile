@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "4.0.4"
+gunicorn = "*"
+uvicorn = "*"
+asgiref = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
+
+[scripts]
+test = "python3 manage.py test"
+server = "python3 manage.py runserver"
+asgi = "gunicorn config.asgi -k uvicorn.workers.UvicornWorker --config ./gunicorn-cfg.py"
+key_init = "mkcert --install"
+key_local = "bash -c 'cd keys && mkcert 127.0.0.1'"
