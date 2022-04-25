@@ -43,13 +43,13 @@ jobs:
         workload_identity_provider: 'projects/93898855020/locations/global/workloadIdentityPools/forgithubactionid/providers/githubid'
         service_account: 'compute-engine-for-github@github-for-personal-build.iam.gserviceaccount.com'
 
-    # - id: 'production_deploy'
-    # name: 'production_deploy'
-    #   if: ${{ github.ref == 'refs/heads/main' }}
-    #   uses: 'google-github-actions/deploy-appengine@v0'
-    #   with:
-    #     deliverables: app.production.yml
-
+    - id: 'Deploy_to_cloud_run'
+      name: 'Deploy to Cloud Run'
+      if: ${{ github.ref == 'refs/heads/main' }}
+      uses: 'google-github-actions/deploy-cloudrun@v0'
+      with:
+        image: 'gcr.io/cloudrun/hello'
+        service: 'hello-cloud-run'
     # Example of using the output
     # - id: 'test'
     #  run: 'curl "${{ steps.deploy.outputs.url }}"'
