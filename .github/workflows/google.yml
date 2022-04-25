@@ -36,7 +36,7 @@ jobs:
       run:  pipenv run test
     - name: create requirements.txt
     # python -m pip install pipenv
-      run: pip lock -r > requirements.txt
+      run: pipenv lock -r > requirements.txt
     - id: 'auth'
       uses: 'google-github-actions/auth@v0'
       with:
