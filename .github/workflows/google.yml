@@ -33,7 +33,7 @@ jobs:
     
     # pipenv sync --dev
     - name: Run Tests
-      run:  run test
+      run:  pipenv run test
     - name: create requirements.txt
     # python -m pip install pipenv
       run: pip lock -r > requirements.txt
